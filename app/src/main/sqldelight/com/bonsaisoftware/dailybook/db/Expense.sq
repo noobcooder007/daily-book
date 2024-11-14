@@ -1,0 +1,32 @@
+CREATE TABLE ExpenseEntity (
+    expenseId INTEGER PRIMARY KEY AUTOINCREMENT,
+    expenseName TEXT NOT NULL,
+    expenseAmount INTEGER NOT NULL,
+    expenseDate TEXT NOT NULL,
+    expenseCategory TEXT NOT NULL,
+    expenseIsActive INTEGER NOT NULL,
+    expenseIsAnExpense INTEGER NOT NULL
+);
+
+insert:
+INSERT INTO ExpenseEntity (expenseName, expenseAmount, expenseDate, expenseCategory, expenseIsActive, expenseIsAnExpense)
+VALUES (?, ?, ?, ?, 1, ?);
+
+update:
+UPDATE ExpenseEntity
+SET expenseAmount = ?,
+    expenseCategory = ?,
+    expenseIsActive = 1,
+    expenseIsAnExpense = ?
+WHERE expenseId = ?;
+
+delete:
+UPDATE ExpenseEntity
+SET expenseIsActive = 0
+WHERE expenseId = ?;
+
+selectAll:
+SELECT * FROM ExpenseEntity WHERE expenseIsActive = 1;
+
+selectById:
+SELECT * FROM ExpenseEntity WHERE expenseId = ?;
