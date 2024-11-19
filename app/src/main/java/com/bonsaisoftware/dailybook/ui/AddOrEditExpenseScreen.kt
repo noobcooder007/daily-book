@@ -2,7 +2,6 @@ package com.bonsaisoftware.dailybook.ui
 
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.bonsaisoftware.dailybook.model.Expense
 import com.bonsaisoftware.dailybook.model.ExpenseCategory
@@ -12,7 +11,6 @@ import java.util.Date
 
 @Composable
 fun ExpenseScreen(
-    modifier: Modifier = Modifier,
     expense: Expense? = null,
     onCanBackClick: Boolean = false,
     onBackClick: () -> Unit = {},

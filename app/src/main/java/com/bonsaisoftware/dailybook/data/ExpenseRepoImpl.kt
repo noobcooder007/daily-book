@@ -64,7 +64,6 @@ class ExpenseRepoImpl(private val database: Database) :
     }
 
     override fun getCategories(): List<ExpenseCategory> {
-        // TODO: Implement this
-        return emptyList()
+        return ExpenseCategory.entries
     }
 }

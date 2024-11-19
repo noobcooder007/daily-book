@@ -25,11 +25,7 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
 
     private fun updateExpensesList() {
         viewModelScope.launch {
-            allExpenses = repo.getAllExpenses().map { it ->
-                it.copy(
-                    expenseAmount = it.expenseAmount.times(100)
-                )
-            }.toMutableList()
+            allExpenses = repo.getAllExpenses().toMutableList()
             updateState()
         }
     }

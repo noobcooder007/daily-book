@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.OutlinedTextField
@@ -33,22 +35,33 @@ import kotlin.math.absoluteValue
 
 @Composable
 fun ExpenseForm(innerPadding: PaddingValues, expense: Expense?, onSaveChanges: (Expense) -> Unit) {
-    var amount by remember { mutableStateOf(expense?.expenseAmount?.absoluteValue?.times(100) ?: 0) }
+    var amount by remember {
+        mutableStateOf(
+            expense?.expenseAmount?.absoluteValue ?: 0
+        )
+    }
     var name by remember { mutableStateOf(expense?.expenseName ?: "") }
-    var category by remember { mutableStateOf(expense?.expenseCategory?.name ?: ExpenseCategory.OTHER.name) }
+    var category by remember {
+        mutableStateOf(
+            expense?.expenseCategory?.name ?: ExpenseCategory.OTHER.name
+        )
+    }
     var isExpense by remember { mutableStateOf(expense?.expenseIsAnExpense ?: true) }
     Box(
         modifier = Modifier
+            .fillMaxSize()
             .padding(
                 start = 16.dp,
                 end = 16.dp,
                 top = innerPadding.calculateTopPadding(),
                 bottom = innerPadding.calculateBottomPadding()
             )
-            .fillMaxSize()
     ) {
         Column(
-            verticalArrangement = Arrangement.SpaceBetween
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             OutlinedTextField(
                 label = { Text("Description") },
@@ -73,6 +86,10 @@ fun ExpenseForm(innerPadding: PaddingValues, expense: Expense?, onSaveChanges: (
                 Checkbox(checked = isExpense, onCheckedChange = { isExpense = it })
                 Text("Is a expense")
             }
+            CustomDropdown(
+                item = category,
+                onItemSelect = { category = it }
+            )
             Spacer(
                 modifier = Modifier.weight(1f)
             )
