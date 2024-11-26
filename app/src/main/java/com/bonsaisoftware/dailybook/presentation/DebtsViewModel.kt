@@ -14,44 +14,48 @@ data class DebtsUiState(
     val total: Long = 0
 )
 
-class DebtsViewModel(private val repo: DebtRepository): ViewModel() {
+class DebtsViewModel(private val repo: DebtRepository) : ViewModel() {
     private val _uiState = MutableStateFlow(DebtsUiState())
     val uiState = _uiState.asStateFlow()
-    private val allDebts = repo.getDebts()
+    private var allDebts = mutableListOf<Debt>()
 
     init {
         getAllDebts()
     }
 
+    private fun updateDebtsList() {
+        viewModelScope.launch {
+            allDebts = repo.getDebts().toMutableList()
+            updateState()
+        }
+    }
+
     private fun updateState() {
         _uiState.update { state ->
-            state.copy(debts = allDebts, total = allDebts.sumOf { it.debtAmount })
+            state.copy(
+                debts = allDebts,
+                total = allDebts.sumOf { it.debtAmount }
+            )
         }
     }
 
     fun getAllDebts() {
-        viewModelScope.launch {
-            updateState()
-        }
+        repo.getDebts()
+        updateDebtsList()
     }
 
     fun addDebt(debt: Debt) {
-        viewModelScope.launch {
-            repo.addDebt(debt)
-            updateState()
-        }
+        repo.addDebt(debt)
+        updateDebtsList()
     }
 
     fun editDebt(debt: Debt) {
-        viewModelScope.launch {
-            repo.editDebt(debt)
-            updateState()
-        }
+        repo.editDebt(debt)
+        updateDebtsList()
     }
 
-    fun getDebtWithID(id: Long): Debt {
-        return allDebts.first { it.debtId == id }
+    fun getDebtWithID(id: Long): Debt? {
+        return repo.getDebtWithID(id)
     }
-
 
 }

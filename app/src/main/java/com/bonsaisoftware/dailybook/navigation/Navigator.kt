@@ -13,18 +13,17 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.bonsaisoftware.dailybook.data.BagManager
 import com.bonsaisoftware.dailybook.data.BagRepoImpl
-import com.bonsaisoftware.dailybook.data.DebtManager
-import com.bonsaisoftware.dailybook.data.DebtRepoImpl
 import com.bonsaisoftware.dailybook.data.GoalManager
 import com.bonsaisoftware.dailybook.data.GoalRepoImpl
 import com.bonsaisoftware.dailybook.presentation.BagsViewModel
 import com.bonsaisoftware.dailybook.presentation.DebtsViewModel
 import com.bonsaisoftware.dailybook.presentation.ExpensesViewModel
 import com.bonsaisoftware.dailybook.presentation.GoalsViewModel
+import com.bonsaisoftware.dailybook.ui.AddOrEditDebtScreen
+import com.bonsaisoftware.dailybook.ui.AddOrEditExpenseScreen
 import com.bonsaisoftware.dailybook.ui.BagsScreen
-import com.bonsaisoftware.dailybook.ui.BalanceScreen
+import com.bonsaisoftware.dailybook.ui.ExpensesScreen
 import com.bonsaisoftware.dailybook.ui.DebtScreen
-import com.bonsaisoftware.dailybook.ui.ExpenseScreen
 import com.bonsaisoftware.dailybook.ui.GoalsScreen
 import com.bonsaisoftware.dailybook.ui.HomeScreen
 import org.koin.androidx.compose.koinViewModel
@@ -36,9 +35,7 @@ fun Navigation(
 ) {
     val expensesViewModel = koinViewModel<ExpensesViewModel>()
     val expenseUiState by expensesViewModel.uiState.collectAsState()
-    val debtViewModel = viewModel {
-        DebtsViewModel(DebtRepoImpl(DebtManager))
-    }
+    val debtViewModel = koinViewModel<DebtsViewModel>()
     val debtUiState by debtViewModel.uiState.collectAsState()
     val bagsViewModel = viewModel {
         BagsViewModel(BagRepoImpl(BagManager))
@@ -60,7 +57,7 @@ fun Navigation(
                 bagsUiState = bagsUiState,
                 goalsUiState = goalsUiState,
                 onBalanceClick = {
-                    navController.navigate("/balance")
+                    navController.navigate("/expense")
                 }, onDebtClick = {
                     navController.navigate("/debt")
                 }, onBagsClick = {
@@ -69,8 +66,8 @@ fun Navigation(
                     navController.navigate("/goals")
                 })
         }
-        composable(route = "/balance") {
-            BalanceScreen(uiState = expenseUiState, onCanBackClick = true, onBackClick = {
+        composable(route = "/expense") {
+            ExpensesScreen(uiState = expenseUiState, onCanBackClick = true, onBackClick = {
                 navController.popBackStack()
             }, onFabClick = { expenseId ->
                 navController.navigate("/expense/$expenseId")
@@ -84,7 +81,7 @@ fun Navigation(
             val id = backStackEntry.arguments?.getLong("id")
             val expenseToAddOrEdit =
                 id?.let { expenseId -> expensesViewModel.getExpenseWithID(id = expenseId) }
-            ExpenseScreen(
+            AddOrEditExpenseScreen(
                 expense = expenseToAddOrEdit,
                 onCanBackClick = true,
                 onBackClick = {
@@ -102,7 +99,30 @@ fun Navigation(
         composable(route = "/debt") {
             DebtScreen(uiState = debtUiState, onCanBackClick = true, onBackClick = {
                 navController.popBackStack()
+            }, onFabClick = { debtId ->
+                navController.navigate("/debt/$debtId")
+            }, onItemClick = { debtId ->
+                navController.navigate("/debt/$debtId")
             })
+        }
+        composable(route = "/debt/{id}", arguments = listOf(navArgument("id") { type = NavType.LongType })) { backStackEntry ->
+            val id = backStackEntry.arguments?.getLong("id")
+            val debtToAddOrEdit =
+                id?.let { debtId -> debtViewModel.getDebtWithID(id = debtId) }
+            AddOrEditDebtScreen(
+                debt = debtToAddOrEdit,
+                onCanBackClick = true,
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            ) { debt ->
+                if (debtToAddOrEdit == null) {
+                    debtViewModel.addDebt(debt)
+                } else {
+                    debtViewModel.editDebt(debt)
+                }
+                navController.popBackStack()
+            }
         }
         composable(route = "/bags") {
             BagsScreen(uiState = bagsUiState, onCanBackClick = true, onBackClick = {

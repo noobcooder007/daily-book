@@ -8,7 +8,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.bonsaisoftware.dailybook.data.BagManager
-import com.bonsaisoftware.dailybook.data.DebtManager
 import com.bonsaisoftware.dailybook.data.GoalManager
 import com.bonsaisoftware.dailybook.model.Bag
 import com.bonsaisoftware.dailybook.model.Debt

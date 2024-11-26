@@ -3,53 +3,49 @@ package com.bonsaisoftware.dailybook.ui
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.bonsaisoftware.dailybook.model.Expense
-import com.bonsaisoftware.dailybook.model.ExpenseCategory
+import com.bonsaisoftware.dailybook.model.CreditCard
+import com.bonsaisoftware.dailybook.model.Debt
 import com.bonsaisoftware.dailybook.ui.components.CustomTopBar
-import com.bonsaisoftware.dailybook.ui.components.ExpenseForm
+import com.bonsaisoftware.dailybook.ui.components.DebtForm
 import java.util.Date
 
 @Composable
-fun AddOrEditExpenseScreen(
-    expense: Expense? = null,
+fun AddOrEditDebtScreen(
+    debt: Debt? = null,
     onCanBackClick: Boolean = false,
     onBackClick: () -> Unit = {},
-    onSaveChanges: (Expense) -> Unit = {}
+    onSaveChanges: (Debt) -> Unit = {}
 ) {
     Scaffold(
         topBar = {
             CustomTopBar(
                 onCanBackClick = onCanBackClick,
                 onBackClick = { onBackClick() },
-                title = expense.let {
+                title = debt.let {
                     if (it == null) {
-                        "Add expense"
+                        "Add debt"
                     } else {
-                        "Edit expense"
+                        "Edit debt"
                     }
                 }
             )
         }
     ) { innerPadding ->
-        ExpenseForm(
-            innerPadding = innerPadding,
-            expense = expense,
-            onSaveChanges = onSaveChanges
-        )
+        DebtForm(debt = debt, innerPadding = innerPadding, onSaveChanges = onSaveChanges)
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun EditExpenseScreenPreview() {
-    AddOrEditExpenseScreen(
-        expense = Expense(
-            expenseId = 1L,
-            expenseAmount = 100,
-            expenseName = "Test",
-            expenseCategory = ExpenseCategory.FOOD,
-            expenseDate = Date(),
-            expenseIsActive = true
+fun EditDebtScreenPreview() {
+    AddOrEditDebtScreen(
+        debt = Debt(
+            debtId = 1L,
+            debtName = "Test",
+            debtAmount = 100,
+            debtIsActive = true,
+            debtDate = Date(),
+            debtCreditCard = CreditCard.MERCADOPAGO
         ),
         onCanBackClick = true,
         onBackClick = {},
@@ -59,9 +55,9 @@ fun EditExpenseScreenPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun AddExpenseScreenPreview() {
-    AddOrEditExpenseScreen(
-        expense = null,
+fun AddDebtScreenPreview() {
+    AddOrEditDebtScreen(
+        debt = null,
         onCanBackClick = true,
         onBackClick = {},
         onSaveChanges = {},

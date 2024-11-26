@@ -15,7 +15,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.bonsaisoftware.dailybook.data.BagManager
-import com.bonsaisoftware.dailybook.data.DebtManager
 import com.bonsaisoftware.dailybook.data.GoalManager
 import com.bonsaisoftware.dailybook.presentation.BagsUiState
 import com.bonsaisoftware.dailybook.presentation.DebtsUiState
@@ -99,8 +98,8 @@ fun HomeScreenPreview() {
             total = 10000,
         ),
         debtUiState = DebtsUiState(
-            debts = DebtManager.debts,
-            total = DebtManager.debts.sumOf { it.debtAmount },
+            debts = emptyList(),
+            total = 0,
         ),
         bagsUiState = BagsUiState(
             bags = BagManager.bags,

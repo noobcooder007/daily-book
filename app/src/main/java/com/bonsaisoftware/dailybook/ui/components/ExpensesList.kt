@@ -71,13 +71,13 @@ fun ExpenseListPreview() {
                 Expense(
                     expenseId = 1,
                     expenseName = "Comida",
-                    expenseAmount = -100,
+                    expenseAmount = -10000,
                     expenseDate = Date(),
                     expenseCategory = ExpenseCategory.FOOD,
                     expenseIsActive = true
                 )
             ),
-            total = -100
+            total = -10000
         )
     )
 }

@@ -17,11 +17,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.bonsaisoftware.dailybook.model.ExpenseCategory
 
 @Composable
 fun CustomDropdown(
     item: String,
+    items: List<String>,
     onItemSelect: (String) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -49,12 +49,12 @@ fun CustomDropdown(
                     expanded = false
                 },
             ) {
-                ExpenseCategory.entries.forEach { c ->
+                items.forEach {
                     DropdownMenuItem(
-                        text = { Text(c.categoryName) },
+                        text = { Text(it) },
                         onClick = {
                             expanded = false
-                            onItemSelect(c.name)
+                            onItemSelect(it)
                         })
                 }
             }

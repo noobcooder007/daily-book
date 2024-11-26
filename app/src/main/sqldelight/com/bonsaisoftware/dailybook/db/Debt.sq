@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS DebtEntity (
+    debtId INTEGER PRIMARY KEY AUTOINCREMENT ,
+    debtName TEXT NOT NULL,
+    debtAmount INTEGER NOT NULL,
+    debtDate TEXT NOT NULL,
+    debtCreditCard TEXT NOT NULL,
+    debtIsActive INTEGER NOT NULL
+);
+
+selectAll:
+SELECT * FROM DebtEntity WHERE debtIsActive = 1;
+
+insert:
+INSERT INTO DebtEntity (debtName, debtAmount, debtDate, debtCreditCard, debtIsActive) VALUES (?, ?, ?, ?, 1);
+
+update:
+UPDATE DebtEntity SET debtName = ?, debtAmount = ?, debtCreditCard = ? WHERE debtId = ?;
+
+selectBy:
+SELECT * FROM DebtEntity WHERE debtId = ?;
+

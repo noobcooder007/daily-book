@@ -11,12 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.bonsaisoftware.dailybook.data.DebtManager
+import com.bonsaisoftware.dailybook.model.CreditCard
+import com.bonsaisoftware.dailybook.model.Debt
 import com.bonsaisoftware.dailybook.presentation.DebtsUiState
 import com.bonsaisoftware.dailybook.util.currencyFormat
+import java.util.Date
 
 @Composable
-fun DebtsList(innerPadding: PaddingValues, uiState: DebtsUiState) {
+fun DebtsList(innerPadding: PaddingValues, uiState: DebtsUiState, onItemClick: (debtId: Long) -> Unit = {}) {
     Column(
         modifier = Modifier.padding(
             start = 16.dp,
@@ -36,7 +38,7 @@ fun DebtsList(innerPadding: PaddingValues, uiState: DebtsUiState) {
         } else {
             LazyColumn {
                 items(uiState.debts) { debt ->
-                    DebtListItem(debt = debt)
+                    DebtListItem(debt = debt, onItemClick = onItemClick)
                 }
             }
         }
@@ -61,8 +63,17 @@ fun DebtsListPreview() {
     DebtsList(
         innerPadding = PaddingValues(0.dp),
         uiState = DebtsUiState(
-            debts = DebtManager.debts,
-            total = DebtManager.debts.sumOf { it.debtAmount }
+            debts = listOf(
+                Debt(
+                    debtId = 1,
+                    debtName = "Comida",
+                    debtAmount = 10000,
+                    debtDate = Date(),
+                    debtCreditCard = CreditCard.BBVA,
+                    debtIsActive = true
+                )
+            ),
+            total = 10000
         )
     )
 }

@@ -6,13 +6,16 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.bonsaisoftware.dailybook.model.Expense
+import com.bonsaisoftware.dailybook.model.ExpenseCategory
 import com.bonsaisoftware.dailybook.presentation.ExpensesUiState
 import com.bonsaisoftware.dailybook.ui.components.CustomTopBar
 import com.bonsaisoftware.dailybook.ui.components.ExpenseList
 import com.bonsaisoftware.dailybook.ui.components.FAB
+import java.util.Date
 
 @Composable
-fun BalanceScreen(
+fun ExpensesScreen(
     uiState: ExpensesUiState,
     onCanBackClick: Boolean = false,
     onBackClick: () -> Unit = {},
@@ -42,11 +45,32 @@ fun BalanceScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun BalanceScreenPreview() {
-    BalanceScreen(
+fun EmptyBalanceScreenPreview() {
+    ExpensesScreen(
         uiState = ExpensesUiState(
             expenses = emptyList(),
             total = 0
+        ),
+        onCanBackClick = true,
+        onBackClick = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BalanceScreenPreview() {
+    ExpensesScreen(
+        uiState = ExpensesUiState(
+            expenses = listOf(
+                Expense(
+                    expenseId = 1,
+                    expenseName = "Comida",
+                    expenseAmount = -10000,
+                    expenseDate = Date(),
+                    expenseCategory = ExpenseCategory.FOOD,
+                )
+            ),
+            total = -10000
         ),
         onCanBackClick = true,
         onBackClick = {}

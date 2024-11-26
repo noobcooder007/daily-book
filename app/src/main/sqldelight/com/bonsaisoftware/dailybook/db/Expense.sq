@@ -1,24 +1,29 @@
-CREATE TABLE ExpenseEntity (
+CREATE TABLE IF NOT EXISTS ExpenseEntity (
     expenseId INTEGER PRIMARY KEY AUTOINCREMENT,
     expenseName TEXT NOT NULL,
     expenseAmount INTEGER NOT NULL,
     expenseDate TEXT NOT NULL,
     expenseCategory TEXT NOT NULL,
     expenseIsActive INTEGER NOT NULL,
-    expenseIsAnExpense INTEGER NOT NULL
+    expenseIsAnExpense INTEGER NOT NULL,
+    expenseDebtId INTEGER
 );
 
 insert:
-INSERT INTO ExpenseEntity (expenseName, expenseAmount, expenseDate, expenseCategory, expenseIsActive, expenseIsAnExpense)
-VALUES (?, ?, ?, ?, 1, ?);
+INSERT INTO ExpenseEntity (expenseName, expenseAmount, expenseDate, expenseCategory, expenseIsActive, expenseIsAnExpense, expenseDebtId)
+VALUES (?, ?, ?, ?, 1, ?, ?);
 
 update:
 UPDATE ExpenseEntity
 SET expenseAmount = ?,
     expenseCategory = ?,
-    expenseIsActive = 1,
     expenseIsAnExpense = ?
 WHERE expenseId = ?;
+
+updateFromDebt:
+UPDATE ExpenseEntity
+SET expenseAmount = ?
+WHERE expenseDebtId = ?;
 
 delete:
 UPDATE ExpenseEntity

@@ -8,7 +8,7 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 
-class ExpenseRepoImpl(private val database: Database) :
+class ExpenseRepoImpl(database: Database) :
     ExpenseRepository {
     private val expenseQueries = database.expenseQueries
     override fun getAllExpenses(): List<Expense> {
@@ -32,7 +32,8 @@ class ExpenseRepoImpl(private val database: Database) :
                 expense.expenseAmount,
                 expense.expenseDate.toString(),
                 expense.expenseCategory.name,
-                if (expense.expenseIsAnExpense) 1L else 0L
+                if (expense.expenseIsAnExpense) 1L else 0L,
+                expense.expenseDebtId
             )
         }
     }

@@ -8,4 +8,5 @@ interface DebtRepository {
     fun addDebt(debt: Debt)
     fun editDebt(debt: Debt)
     fun getCreditCards(): List<CreditCard>
+    fun getDebtWithID(id: Long): Debt?
 }
