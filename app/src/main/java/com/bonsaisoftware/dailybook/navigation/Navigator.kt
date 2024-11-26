@@ -1,5 +1,7 @@
 package com.bonsaisoftware.dailybook.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -66,7 +68,40 @@ fun Navigation(
                     navController.navigate("/goals")
                 })
         }
-        composable(route = "/expense") {
+        composable(
+            route = "/expense",
+            enterTransition = {
+                when (initialState.destination.route) {
+                    "/expense/{id}" ->
+                        slideIntoContainer(
+                            towards = AnimatedContentTransitionScope.SlideDirection.Up,
+                            animationSpec = tween(700)
+                        )
+
+                    else ->
+                        slideIntoContainer(
+                            towards = AnimatedContentTransitionScope.SlideDirection.Left,
+                            animationSpec = tween(700)
+                        )
+                }
+            },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    "/expense/{id}" ->
+                        slideOutOfContainer(
+                            towards = AnimatedContentTransitionScope.SlideDirection.Down,
+                            animationSpec = tween(700)
+                        )
+
+                    else ->
+                        slideOutOfContainer(
+                            towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                            animationSpec = tween(700)
+                        )
+                }
+
+            }
+        ) {
             ExpensesScreen(uiState = expenseUiState, onCanBackClick = true, onBackClick = {
                 navController.popBackStack()
             }, onFabClick = { expenseId ->
@@ -75,9 +110,24 @@ fun Navigation(
                 navController.navigate("/expense/$expenseId")
             })
         }
-        composable(route = "/expense/{id}", arguments = listOf(
-            navArgument("id") { type = NavType.LongType }
-        )) { backStackEntry ->
+        composable(
+            route = "/expense/{id}",
+            arguments = listOf(
+                navArgument("id") { type = NavType.LongType }
+            ),
+            enterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Up,
+                    animationSpec = tween(700)
+                )
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Down,
+                    animationSpec = tween(700)
+                )
+            }
+        ) { backStackEntry ->
             val id = backStackEntry.arguments?.getLong("id")
             val expenseToAddOrEdit =
                 id?.let { expenseId -> expensesViewModel.getExpenseWithID(id = expenseId) }
@@ -96,7 +146,40 @@ fun Navigation(
                 navController.popBackStack()
             }
         }
-        composable(route = "/debt") {
+        composable(
+            route = "/debt",
+            enterTransition = {
+                when (initialState.destination.route) {
+                    "/expense/{id}" ->
+                        slideIntoContainer(
+                            towards = AnimatedContentTransitionScope.SlideDirection.Up,
+                            animationSpec = tween(700)
+                        )
+
+                    else ->
+                        slideIntoContainer(
+                            towards = AnimatedContentTransitionScope.SlideDirection.Left,
+                            animationSpec = tween(700)
+                        )
+                }
+            },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    "/expense/{id}" ->
+                        slideOutOfContainer(
+                            towards = AnimatedContentTransitionScope.SlideDirection.Down,
+                            animationSpec = tween(700)
+                        )
+
+                    else ->
+                        slideOutOfContainer(
+                            towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                            animationSpec = tween(700)
+                        )
+                }
+
+            }
+        ) {
             DebtScreen(uiState = debtUiState, onCanBackClick = true, onBackClick = {
                 navController.popBackStack()
             }, onFabClick = { debtId ->
@@ -105,7 +188,22 @@ fun Navigation(
                 navController.navigate("/debt/$debtId")
             })
         }
-        composable(route = "/debt/{id}", arguments = listOf(navArgument("id") { type = NavType.LongType })) { backStackEntry ->
+        composable(
+            route = "/debt/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.LongType }),
+            enterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Up,
+                    animationSpec = tween(700)
+                )
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Down,
+                    animationSpec = tween(700)
+                )
+            }
+        ) { backStackEntry ->
             val id = backStackEntry.arguments?.getLong("id")
             val debtToAddOrEdit =
                 id?.let { debtId -> debtViewModel.getDebtWithID(id = debtId) }
