@@ -17,10 +17,17 @@ data class GoalsUiState(
 class GoalsViewModel(private val repo: GoalRepository) : ViewModel() {
     private val _uiState = MutableStateFlow(GoalsUiState())
     val uiState = _uiState.asStateFlow()
-    private val allGoals = repo.getAllGoals()
+    private var allGoals = mutableListOf<Goal>()
 
     init {
         getAllGoals()
+    }
+
+    private fun updateGoalsList() {
+        viewModelScope.launch {
+            allGoals = repo.getAllGoals().toMutableList()
+            updateState()
+        }
     }
 
     private fun updateState() {
@@ -30,23 +37,28 @@ class GoalsViewModel(private val repo: GoalRepository) : ViewModel() {
     }
 
     private fun getAllGoals() {
-        viewModelScope.launch {
-            updateState()
-        }
+        repo.getAllGoals()
+        updateGoalsList()
     }
 
     fun addGoal(goal: Goal) {
-        viewModelScope.launch {
-            repo.addGoal(goal)
-            updateState()
-        }
+        repo.addGoal(goal)
+        updateGoalsList()
     }
 
     fun editGoal(goal: Goal) {
-        viewModelScope.launch {
-            repo.editGoal(goal)
-            updateState()
-        }
+        repo.editGoal(goal)
+        updateGoalsList()
     }
+
+    fun deleteGoal(goal: Goal) {
+        repo.deleteGoal(goal)
+        updateGoalsList()
+    }
+
+    fun getGoalWithID(id: Long): Goal? {
+        return repo.getGoalWithID(id)
+    }
+
 
 }

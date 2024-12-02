@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.bonsaisoftware.dailybook.data.BagManager
 import com.bonsaisoftware.dailybook.presentation.BagsUiState
 import com.bonsaisoftware.dailybook.util.currencyFormat
 
@@ -28,7 +27,7 @@ fun BagsList(innerPadding: PaddingValues, uiState: BagsUiState) {
     ) {
         item {
             SummaryCard(
-                total = currencyFormat( "${uiState.total}"),
+                total = currencyFormat(uiState.total.toBigDecimal()),
                 label = "Balance total",
                 currency = "MXN",
             )
@@ -36,8 +35,14 @@ fun BagsList(innerPadding: PaddingValues, uiState: BagsUiState) {
         item {
             Spacer(modifier = Modifier.height(8.dp))
         }
-        items(uiState.bags) { bag ->
-            BagListItem(bag = bag)
+        if (uiState.bags.isEmpty()) {
+            item {
+                EmptyList()
+            }
+        } else {
+            items(uiState.bags) { bag ->
+                BagListItem(bag = bag)
+            }
         }
     }
 }
@@ -48,8 +53,8 @@ fun BagsListPreview() {
     BagsList(
         innerPadding = PaddingValues(0.dp),
         uiState = BagsUiState(
-            bags = BagManager.bags,
-            total = BagManager.bags.sumOf { it.bagAmount }
+            bags = emptyList(),
+            total = 0
         )
     )
 }

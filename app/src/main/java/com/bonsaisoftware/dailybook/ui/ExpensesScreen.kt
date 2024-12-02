@@ -38,8 +38,8 @@ fun ExpensesScreen(
                 )
             }, onClick = { onFabClick(-1L) })
         }
-    ) { innerPadding ->
-        ExpenseList(innerPadding = innerPadding, uiState = uiState, onItemClick = onItemClick)
+    ) {
+        ExpenseList(innerPadding = it, uiState = uiState, onItemClick = onItemClick)
     }
 }
 

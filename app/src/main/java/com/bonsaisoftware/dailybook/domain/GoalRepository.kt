@@ -6,4 +6,6 @@ interface GoalRepository {
     fun getAllGoals(): List<Goal>
     fun addGoal(goal: Goal)
     fun editGoal(goal: Goal)
+    fun deleteGoal(goal: Goal)
+    fun getGoalWithID(id: Long): Goal?
 }

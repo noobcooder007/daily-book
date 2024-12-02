@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,7 +17,6 @@ import com.bonsaisoftware.dailybook.util.CurrencyAmountInputVisualTransformation
 
 @Composable
 fun NumberFormField(
-    modifier: Modifier = Modifier,
     label: String,
     value: String,
     onValueChange: (Long) -> Unit,

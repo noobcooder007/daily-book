@@ -11,12 +11,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -26,20 +25,14 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.bonsaisoftware.dailybook.model.CreditCard
-import com.bonsaisoftware.dailybook.model.Debt
+import com.bonsaisoftware.dailybook.model.Goal
+import com.bonsaisoftware.dailybook.model.GoalStatus
 import java.util.Date
-import kotlin.math.absoluteValue
 
 @Composable
-fun DebtForm(
-    debt: Debt?,
-    innerPadding: PaddingValues,
-    onSaveChanges: (Debt) -> Unit
-) {
-    var name by remember { mutableStateOf(debt?.debtName ?: "") }
-    var amount by remember { mutableLongStateOf(debt?.debtAmount?.absoluteValue ?: 0) }
-    var creditCard by remember { mutableStateOf(debt?.debtCreditCard?.name ?: CreditCard.OTHER.name) }
+fun GoalForm(innerPadding: PaddingValues, goal: Goal?, onSaveChanges: (Goal) -> Unit) {
+    var name by remember { mutableStateOf(goal?.goalName ?: "") }
+    var amount by remember { mutableStateOf(goal?.goalAmount ?: 0) }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -73,26 +66,21 @@ fun DebtForm(
                 value = "$amount",
                 onValueChange = { amount = it }
             )
-            CustomDropdown(
-                item = creditCard,
-                items = CreditCard.entries.map { it.name },
-                onItemSelect = { creditCard = it }
-            )
             Spacer(
                 modifier = Modifier.weight(1f)
             )
-            FilledTonalIconButton(
+            FilledTonalButton(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = name.isNotEmpty(),
                 onClick = {
                     onSaveChanges(
-                        Debt(
-                            debtId = debt?.debtId ?: 0L,
-                            debtName = name,
-                            debtAmount = amount,
-                            debtCreditCard = CreditCard.valueOf(creditCard),
-                            debtIsActive = true,
-                            debtDate = Date()
+                        Goal(
+                            goalId = goal?.goalId ?: 0L,
+                            goalName = name,
+                            goalAmount = amount,
+                            goalIsActive = true,
+                            goalDate = goal?.goalDate ?: Date(),
+                            goalStatus = GoalStatus.PENDING
                         )
                     )
                 }
@@ -105,27 +93,21 @@ fun DebtForm(
 
 @Preview(showBackground = true)
 @Composable
-fun DebtNullFormPreview() {
-    DebtForm(
-        debt = null,
-        innerPadding = PaddingValues(),
-        onSaveChanges = {}
-    )
+fun GoalEmptyFormPreview() {
+    GoalForm(innerPadding = PaddingValues(), goal = null, onSaveChanges = {})
 }
 
 @Preview(showBackground = true)
 @Composable
-fun DebtFormPreview() {
-    DebtForm(
-        debt = Debt(
-            debtId = 1L,
-            debtName = "Test",
-            debtAmount = 10000,
-            debtIsActive = true,
-            debtDate = Date(),
-            debtCreditCard = CreditCard.BBVA
-        ),
+fun GoalFormPreview() {
+    GoalForm(
         innerPadding = PaddingValues(),
-        onSaveChanges = {}
-    )
+        goal = Goal(
+            goalId = 1L,
+            goalName = "Test",
+            goalAmount = 100,
+            goalIsActive = true,
+            goalDate = Date(),
+            goalStatus = GoalStatus.PENDING
+        ), onSaveChanges = {})
 }

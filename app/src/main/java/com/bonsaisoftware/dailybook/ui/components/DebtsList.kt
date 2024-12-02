@@ -18,7 +18,11 @@ import com.bonsaisoftware.dailybook.util.currencyFormat
 import java.util.Date
 
 @Composable
-fun DebtsList(innerPadding: PaddingValues, uiState: DebtsUiState, onItemClick: (debtId: Long) -> Unit = {}) {
+fun DebtsList(
+    innerPadding: PaddingValues,
+    uiState: DebtsUiState,
+    onItemClick: (debtId: Long) -> Unit = {}
+) {
     Column(
         modifier = Modifier.padding(
             start = 16.dp,
@@ -28,7 +32,7 @@ fun DebtsList(innerPadding: PaddingValues, uiState: DebtsUiState, onItemClick: (
         ),
     ) {
         SummaryCard(
-            total = currencyFormat("${ uiState.total }"),
+            total = currencyFormat(uiState.total.toBigDecimal()),
             label = "Balance total",
             currency = "MXN",
         )

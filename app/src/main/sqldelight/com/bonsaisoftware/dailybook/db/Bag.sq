@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS BagEntity (
+    bagId INTEGER PRIMARY KEY AUTOINCREMENT,
+    bagName TEXT NOT NULL,
+    bagAmount INTEGER NOT NULL,
+    bagDate TEXT NOT NULL,
+    bagIsActive INTEGER NOT NULL,
+    goalId INTEGER
+);
+
+insert:
+INSERT INTO BagEntity (bagName, bagAmount, bagDate, bagIsActive, goalId) VALUES (?, ?, ?, ?, ?);
+
+update:
+UPDATE BagEntity SET bagName = ?, bagAmount = ?, goalId = ? WHERE bagId = ?;
+
+selectAll:
+SELECT * FROM BagEntity;

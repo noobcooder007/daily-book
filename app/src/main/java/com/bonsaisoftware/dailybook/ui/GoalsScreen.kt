@@ -6,7 +6,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import com.bonsaisoftware.dailybook.presentation.GoalsUiState
-import com.bonsaisoftware.dailybook.ui.components.BagsList
 import com.bonsaisoftware.dailybook.ui.components.CustomTopBar
 import com.bonsaisoftware.dailybook.ui.components.FAB
 import com.bonsaisoftware.dailybook.ui.components.GoalsList
@@ -15,7 +14,9 @@ import com.bonsaisoftware.dailybook.ui.components.GoalsList
 fun GoalsScreen(
     uiState: GoalsUiState,
     onCanBackClick: Boolean = false,
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},
+    onFabClick: (goalId: Long) -> Unit = {},
+    onItemClick: (goalId: Long) -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -29,11 +30,11 @@ fun GoalsScreen(
             FAB(icon = {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Add debt"
+                    contentDescription = "Add goal"
                 )
-            })
+            }, onClick = { onFabClick(-1L) })
         }
-    ) { innerPadding ->
-        GoalsList(innerPadding = innerPadding, uiState = uiState)
+    ) {
+        GoalsList(innerPadding = it, uiState = uiState, onItemClick = onItemClick)
     }
 }

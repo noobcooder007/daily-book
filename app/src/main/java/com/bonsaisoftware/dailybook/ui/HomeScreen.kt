@@ -13,9 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
-import com.bonsaisoftware.dailybook.data.BagManager
-import com.bonsaisoftware.dailybook.data.GoalManager
 import com.bonsaisoftware.dailybook.presentation.BagsUiState
 import com.bonsaisoftware.dailybook.presentation.DebtsUiState
 import com.bonsaisoftware.dailybook.presentation.ExpensesUiState
@@ -26,7 +23,6 @@ import com.bonsaisoftware.dailybook.util.currencyFormat
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier,
     expenseUiState: ExpensesUiState,
     debtUiState: DebtsUiState,
     bagsUiState: BagsUiState,
@@ -47,34 +43,34 @@ fun HomeScreen(
                 },
             )
         },
-    ) { innerPadding ->
+    ) {
         Column(
             modifier = Modifier.padding(
                 start = 16.dp,
                 end = 16.dp,
-                top = innerPadding.calculateTopPadding(),
-                bottom = innerPadding.calculateBottomPadding()
+                top = it.calculateTopPadding(),
+                bottom = it.calculateBottomPadding()
             )
         ) {
-            SummaryCard(total = currencyFormat("${expenseUiState.total}"),
+            SummaryCard(total = currencyFormat(expenseUiState.total.toBigDecimal()),
                 label = "Balance total",
                 currency = "MXN",
                 onClick = { onBalanceClick() })
             Spacer(modifier = Modifier.height(8.dp))
             SummaryCard(
-                total = currencyFormat("${debtUiState.total}"),
+                total = currencyFormat(debtUiState.total.toBigDecimal()),
                 label = "Deuda",
                 currency = "MXN",
                 onClick = { onDebtClick() })
             Spacer(modifier = Modifier.height(8.dp))
             SummaryCard(
-                total = currencyFormat("${bagsUiState.total}"),
+                total = currencyFormat(bagsUiState.total.toBigDecimal()),
                 label = "Apartados",
                 currency = "MXN",
                 onClick = { onBagsClick() })
             Spacer(modifier = Modifier.height(8.dp))
             SummaryCard(
-                total = currencyFormat("${goalsUiState.total}"),
+                total = currencyFormat(goalsUiState.total.toBigDecimal()),
                 label = "Metas",
                 currency = "MXN",
                 onClick = {
@@ -89,25 +85,21 @@ fun HomeScreen(
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(
-        Modifier.padding(
-            start = 16.dp,
-            end = 16.dp,
-        ),
         expenseUiState = ExpensesUiState(
             expenses = emptyList(),
-            total = 10000,
+            total = 1000000,
         ),
         debtUiState = DebtsUiState(
             debts = emptyList(),
-            total = 0,
+            total = 700000,
         ),
         bagsUiState = BagsUiState(
-            bags = BagManager.bags,
-            total = BagManager.bags.sumOf { it.bagAmount },
+            bags = emptyList(),
+            total = 200000,
         ),
         goalsUiState = GoalsUiState(
-            goals = GoalManager.goals,
-            total = GoalManager.goals.sumOf { it.goalAmount },
+            goals = emptyList(),
+            total = 350000,
         ),
     )
 }

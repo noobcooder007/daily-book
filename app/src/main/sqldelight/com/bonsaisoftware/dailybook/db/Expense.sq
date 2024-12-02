@@ -6,7 +6,9 @@ CREATE TABLE IF NOT EXISTS ExpenseEntity (
     expenseCategory TEXT NOT NULL,
     expenseIsActive INTEGER NOT NULL,
     expenseIsAnExpense INTEGER NOT NULL,
-    expenseDebtId INTEGER
+    expenseDebtId INTEGER,
+    expenseBag INTEGER,
+    expenseCanEdit INTEGER
 );
 
 insert:
@@ -15,7 +17,8 @@ VALUES (?, ?, ?, ?, 1, ?, ?);
 
 update:
 UPDATE ExpenseEntity
-SET expenseAmount = ?,
+SET expenseName = ?,
+    expenseAmount = ?,
     expenseCategory = ?,
     expenseIsAnExpense = ?
 WHERE expenseId = ?;

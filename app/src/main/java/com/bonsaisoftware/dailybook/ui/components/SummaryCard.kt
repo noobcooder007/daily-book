@@ -39,7 +39,7 @@ fun SummaryCard(total: String, label: String, currency: String, onClick: () -> U
                 modifier = Modifier.weight(1f)
             ) {
                 Text(
-                    text = "$$total", style = TextStyle(
+                    text = total, style = TextStyle(
                         fontSize = 30.sp,
                         fontWeight = FontWeight.ExtraBold
                     )

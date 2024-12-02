@@ -25,7 +25,7 @@ fun ExpenseListItem(expense: Expense, onItemClick: (expenseId: Long) -> Unit = {
         )
     }, trailingContent = {
         Text(
-            text = currencyFormat("\$${expense.expenseAmount}"), style = TextStyle(
+            text = currencyFormat(expense.expenseAmount.toBigDecimal()), style = TextStyle(
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
             )

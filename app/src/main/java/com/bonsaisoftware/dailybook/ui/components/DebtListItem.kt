@@ -27,7 +27,7 @@ fun DebtListItem(debt: Debt, onItemClick: (debtId: Long) -> Unit = {}) {
         },
         trailingContent = {
             Text(
-                text = currencyFormat("$${debt.debtAmount}"), style = TextStyle(
+                text = currencyFormat(debt.debtAmount.toBigDecimal()), style = TextStyle(
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                 )

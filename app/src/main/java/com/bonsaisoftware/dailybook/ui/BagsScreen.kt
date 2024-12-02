@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import com.bonsaisoftware.dailybook.presentation.BagsUiState
 import com.bonsaisoftware.dailybook.ui.components.BagsList
 import com.bonsaisoftware.dailybook.ui.components.CustomTopBar
-import com.bonsaisoftware.dailybook.ui.components.DebtsList
 import com.bonsaisoftware.dailybook.ui.components.FAB
 
 @Composable
@@ -33,7 +32,7 @@ fun BagsScreen(
                 )
             })
         }
-    ) { innerPadding ->
-        BagsList(innerPadding = innerPadding, uiState = uiState)
+    ) {
+        BagsList(innerPadding = it, uiState = uiState)
     }
 }

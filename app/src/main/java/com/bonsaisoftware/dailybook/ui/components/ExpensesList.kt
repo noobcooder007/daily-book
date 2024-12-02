@@ -32,7 +32,7 @@ fun ExpenseList(
         ),
     ) {
         SummaryCard(
-            total = currencyFormat("${uiState.total}"),
+            total = currencyFormat(uiState.total.toBigDecimal()),
             label = "Balance total",
             currency = "MXN",
         )

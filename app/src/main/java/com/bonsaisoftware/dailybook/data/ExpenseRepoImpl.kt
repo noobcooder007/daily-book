@@ -4,8 +4,6 @@ import com.bonsaisoftware.dailybook.db.Database
 import com.bonsaisoftware.dailybook.domain.ExpenseRepository
 import com.bonsaisoftware.dailybook.model.Expense
 import com.bonsaisoftware.dailybook.model.ExpenseCategory
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.Date
 
 class ExpenseRepoImpl(database: Database) :
@@ -28,12 +26,12 @@ class ExpenseRepoImpl(database: Database) :
     override fun addExpense(expense: Expense) {
         expenseQueries.transaction {
             expenseQueries.insert(
-                expense.expenseName,
-                expense.expenseAmount,
-                expense.expenseDate.toString(),
-                expense.expenseCategory.name,
-                if (expense.expenseIsAnExpense) 1L else 0L,
-                expense.expenseDebtId
+                expenseName = expense.expenseName,
+                expenseAmount = expense.expenseAmount,
+                expenseDate = expense.expenseDate.toString(),
+                expenseCategory = expense.expenseCategory.name,
+                expenseIsAnExpense = if (expense.expenseIsAnExpense) 1L else 0L,
+                expenseDebtId = expense.expenseDebtId
             )
         }
     }
@@ -41,10 +39,11 @@ class ExpenseRepoImpl(database: Database) :
     override fun editExpense(expense: Expense) {
         expenseQueries.transaction {
             expenseQueries.update(
-                expense.expenseAmount,
-                expense.expenseCategory.name,
-                if (expense.expenseIsAnExpense) 1L else 0L,
-                expense.expenseId
+                expenseName = expense.expenseName,
+                expenseAmount = expense.expenseAmount,
+                expenseCategory = expense.expenseCategory.name,
+                expenseIsAnExpense = if (expense.expenseIsAnExpense) 1L else 0L,
+                expenseId = expense.expenseId
             )
         }
     }

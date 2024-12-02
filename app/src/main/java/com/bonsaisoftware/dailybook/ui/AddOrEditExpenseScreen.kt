@@ -30,9 +30,9 @@ fun AddOrEditExpenseScreen(
                 }
             )
         }
-    ) { innerPadding ->
+    ) {
         ExpenseForm(
-            innerPadding = innerPadding,
+            innerPadding = it,
             expense = expense,
             onSaveChanges = onSaveChanges
         )

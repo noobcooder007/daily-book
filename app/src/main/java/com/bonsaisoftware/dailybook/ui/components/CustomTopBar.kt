@@ -8,11 +8,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomTopBar(modifier: Modifier = Modifier, onCanBackClick: Boolean = false, onBackClick: () -> Unit = {}, title: String) {
+fun CustomTopBar(onCanBackClick: Boolean = false, onBackClick: () -> Unit = {}, title: String) {
     TopAppBar(title = {
         Text(
             text = title,

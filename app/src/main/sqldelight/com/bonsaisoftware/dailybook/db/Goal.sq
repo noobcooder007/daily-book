@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS GoalEntity (
+    goalId INTEGER PRIMARY KEY AUTOINCREMENT,
+    goalName TEXT NOT NULL,
+    goalAmount INTEGER NOT NULL,
+    goalDate TEXT NOT NULL,
+    goalStatus TEXT NOT NULL,
+    goalIsActive INTEGER NOT NULL
+);
+
+insert:
+INSERT INTO GoalEntity (goalName, goalAmount, goalDate, goalStatus, goalIsActive) VALUES (?, ?, ?, ?, ?);
+
+update:
+UPDATE GoalEntity SET goalName = ?, goalAmount = ?, goalStatus = ? WHERE goalId = ?;
+
+selectAll:
+SELECT * FROM GoalEntity;
+
+selectById:
+SELECT * FROM GoalEntity WHERE goalId = ?;
+
+delete:
+UPDATE GoalEntity SET goalIsActive = 0 WHERE goalId = ?;

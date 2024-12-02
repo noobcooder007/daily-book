@@ -28,7 +28,6 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.bonsaisoftware.dailybook.model.CreditCard
 import com.bonsaisoftware.dailybook.model.Expense
 import com.bonsaisoftware.dailybook.model.ExpenseCategory
 import java.util.Date
@@ -72,7 +71,7 @@ fun ExpenseForm(
                 label = { Text("Description") },
                 modifier = Modifier.fillMaxWidth(),
                 value = name,
-                onValueChange = { name = it },
+                onValueChange = { name = it.trim() },
                 placeholder = { Text("Type a description") },
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.Sentences,
@@ -92,7 +91,7 @@ fun ExpenseForm(
             }
             CustomDropdown(
                 item = category,
-                items = CreditCard.entries.map { it.name },
+                items = ExpenseCategory.entries.map { it.name },
                 onItemSelect = { category = it }
             )
             Spacer(

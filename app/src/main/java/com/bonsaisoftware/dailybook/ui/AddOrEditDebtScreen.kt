@@ -30,8 +30,8 @@ fun AddOrEditDebtScreen(
                 }
             )
         }
-    ) { innerPadding ->
-        DebtForm(debt = debt, innerPadding = innerPadding, onSaveChanges = onSaveChanges)
+    ) {
+        DebtForm(debt = debt, innerPadding = it, onSaveChanges = onSaveChanges)
     }
 }
 

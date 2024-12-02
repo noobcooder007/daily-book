@@ -1,6 +1,6 @@
 package com.bonsaisoftware.dailybook.ui.components
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -11,35 +11,55 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.bonsaisoftware.dailybook.data.GoalManager
+import com.bonsaisoftware.dailybook.model.Goal
+import com.bonsaisoftware.dailybook.model.GoalStatus
 import com.bonsaisoftware.dailybook.presentation.GoalsUiState
 import com.bonsaisoftware.dailybook.util.currencyFormat
+import java.util.Date
 
 @Composable
-fun GoalsList(innerPadding: PaddingValues, uiState: GoalsUiState) {
-    LazyColumn(
+fun GoalsList(
+    innerPadding: PaddingValues,
+    uiState: GoalsUiState,
+    onItemClick: (goalId: Long) -> Unit = {}
+) {
+    Column(
         modifier = Modifier.padding(
             start = 16.dp,
             end = 16.dp,
             top = innerPadding.calculateTopPadding(),
             bottom = innerPadding.calculateBottomPadding()
-        ),
-        verticalArrangement = Arrangement.SpaceBetween,
+        )
     ) {
-        item {
-            SummaryCard(
-                total = currencyFormat("${uiState.total}"),
-                label = "Balance total",
-                currency = "MXN",
-            )
-        }
-        item {
-            Spacer(modifier = Modifier.height(8.dp))
-        }
-        items(uiState.goals) { goal ->
-            GoalListItem(goal = goal)
+        SummaryCard(
+            total = currencyFormat(uiState.total.toBigDecimal()),
+            label = "Balance total",
+            currency = "MXN",
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        if (uiState.goals.isEmpty()) {
+            EmptyList()
+        } else {
+            LazyColumn {
+                items(uiState.goals) { goal ->
+                    GoalListItem(goal = goal, onItemClick = onItemClick)
+                }
+            }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GoalsEmptyListPreview() {
+    GoalsList(
+        innerPadding = PaddingValues(0.dp),
+        uiState = GoalsUiState(
+            goals = emptyList(),
+            total = 0
+        ),
+        onItemClick = {}
+    )
 }
 
 @Preview(showBackground = true)
@@ -48,8 +68,18 @@ fun GoalsListPreview() {
     GoalsList(
         innerPadding = PaddingValues(0.dp),
         uiState = GoalsUiState(
-            goals = GoalManager.goals,
-            total = GoalManager.goals.sumOf { it.goalAmount }
-        )
+            goals = listOf(
+                Goal(
+                    goalId = 1,
+                    goalName = "Goal 1",
+                    goalAmount = 100000,
+                    goalDate = Date(),
+                    goalStatus = GoalStatus.PENDING,
+                    goalIsActive = true,
+                ),
+            ),
+            total = 100000
+        ),
+        onItemClick = {}
     )
 }

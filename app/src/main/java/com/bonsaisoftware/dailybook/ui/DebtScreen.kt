@@ -38,8 +38,8 @@ fun DebtScreen(
                 )
             }, onClick = { onFabClick(-1L) })
         }
-    ) { innerPadding ->
-        DebtsList(innerPadding = innerPadding, uiState = uiState, onItemClick = onItemClick)
+    ) {
+        DebtsList(innerPadding = it, uiState = uiState, onItemClick = onItemClick)
     }
 }
 
