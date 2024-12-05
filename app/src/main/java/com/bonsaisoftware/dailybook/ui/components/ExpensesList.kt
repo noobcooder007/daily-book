@@ -1,5 +1,8 @@
 package com.bonsaisoftware.dailybook.ui.components
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -17,67 +20,76 @@ import com.bonsaisoftware.dailybook.presentation.ExpensesUiState
 import com.bonsaisoftware.dailybook.util.currencyFormat
 import java.util.Date
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun ExpenseList(
     innerPadding: PaddingValues,
     uiState: ExpensesUiState,
-    onItemClick: (expenseId: Long) -> Unit = {}
+    onItemClick: (expenseId: Long) -> Unit = {},
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope
 ) {
-    Column(
-        modifier = Modifier.padding(
-            start = 16.dp,
-            end = 16.dp,
-            top = innerPadding.calculateTopPadding(),
-            bottom = innerPadding.calculateBottomPadding()
-        ),
-    ) {
-        SummaryCard(
-            total = currencyFormat(uiState.total.toBigDecimal()),
-            label = "Balance total",
-            currency = "MXN",
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        if (uiState.expenses.isEmpty()) {
-            EmptyList()
-        } else {
-            LazyColumn {
-                items(uiState.expenses) { expense ->
-                    ExpenseListItem(expense = expense, onItemClick = onItemClick)
+    with(sharedTransitionScope) {
+        Column(
+            modifier = Modifier.padding(
+                start = 16.dp,
+                end = 16.dp,
+                top = innerPadding.calculateTopPadding(),
+                bottom = innerPadding.calculateBottomPadding()
+            ),
+        ) {
+            SummaryCard(
+                modifier = Modifier.sharedElement(
+                    rememberSharedContentState(key = "summaryBalance"),
+                    animatedVisibilityScope
+                ),
+                total = currencyFormat(uiState.total.toBigDecimal()),
+                label = "Balance total",
+                currency = "MXN",
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            if (uiState.expenses.isEmpty()) {
+                EmptyList()
+            } else {
+                LazyColumn {
+                    items(uiState.expenses) { expense ->
+                        ExpenseListItem(expense = expense, onItemClick = onItemClick)
+                    }
                 }
             }
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun ExpenseEmptyListPreview() {
-    ExpenseList(
-        innerPadding = PaddingValues(0.dp),
-        uiState = ExpensesUiState(
-            expenses = emptyList(),
-            total = 0
-        )
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun ExpenseEmptyListPreview() {
+//    ExpenseList(
+//        innerPadding = PaddingValues(0.dp),
+//        uiState = ExpensesUiState(
+//            expenses = emptyList(),
+//            total = 0
+//        ),
+//    )
+//}
 
-@Preview(showBackground = true)
-@Composable
-fun ExpenseListPreview() {
-    ExpenseList(
-        innerPadding = PaddingValues(0.dp),
-        uiState = ExpensesUiState(
-            expenses = listOf(
-                Expense(
-                    expenseId = 1,
-                    expenseName = "Comida",
-                    expenseAmount = -10000,
-                    expenseDate = Date(),
-                    expenseCategory = ExpenseCategory.FOOD,
-                    expenseIsActive = true
-                )
-            ),
-            total = -10000
-        )
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun ExpenseListPreview() {
+//    ExpenseList(
+//        innerPadding = PaddingValues(0.dp),
+//        uiState = ExpensesUiState(
+//            expenses = listOf(
+//                Expense(
+//                    expenseId = 1,
+//                    expenseName = "Comida",
+//                    expenseAmount = -10000,
+//                    expenseDate = Date(),
+//                    expenseCategory = ExpenseCategory.FOOD,
+//                    expenseIsActive = true
+//                )
+//            ),
+//            total = -10000
+//        )
+//    )
+//}

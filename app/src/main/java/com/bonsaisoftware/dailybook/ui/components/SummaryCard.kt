@@ -1,7 +1,6 @@
 package com.bonsaisoftware.dailybook.ui.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -21,9 +20,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun SummaryCard(total: String, label: String, currency: String, onClick: () -> Unit = {}) {
+fun SummaryCard(
+    modifier: Modifier,
+    total: String,
+    label: String,
+    currency: String,
+    onClick: () -> Unit = {}
+) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .height(100.dp)
             .clickable { onClick() },
         shape = CutCornerShape(topStart = 12.dp, bottomEnd = 12.dp)
@@ -56,8 +61,13 @@ fun SummaryCard(total: String, label: String, currency: String, onClick: () -> U
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun SummaryCardPreview() {
-    SummaryCard(total = "5000", label = "Balance actual", currency = "MXN")
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun SummaryCardPreview() {
+//    SummaryCard(
+//        modifier = Modifier.Companion.sharedElement(),
+//        total = "5000",
+//        label = "Balance actual",
+//        currency = "MXN"
+//    )
+//}

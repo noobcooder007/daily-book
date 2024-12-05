@@ -39,7 +39,7 @@ class BagRepoImpl(database: Database) : BagRepository {
     override suspend fun addBag(bag: Bag) {
         bagQueries.transaction {
             bagQueries.insert(
-                bagName = bag.bagName,
+                bagName = bag.bagName.trim(),
                 bagAmount = bag.bagAmount,
                 bagDate = bag.bagDate.toString(),
                 bagIsActive = if (bag.bagIsActive) 1L else 0L,
@@ -51,7 +51,7 @@ class BagRepoImpl(database: Database) : BagRepository {
     override suspend fun editBag(bag: Bag) {
         bagQueries.transaction {
             bagQueries.update(
-                bagName = bag.bagName,
+                bagName = bag.bagName.trim(),
                 bagAmount = bag.bagAmount,
                 goalId = bag.goal?.goalId,
                 bagId = bag.bagId

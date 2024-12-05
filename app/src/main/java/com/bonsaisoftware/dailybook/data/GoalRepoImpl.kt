@@ -25,7 +25,7 @@ class GoalRepoImpl(database: Database): GoalRepository {
     override fun addGoal(goal: Goal) {
         goalQueries.transaction {
             goalQueries.insert(
-                goalName = goal.goalName,
+                goalName = goal.goalName.trim(),
                 goalAmount = goal.goalAmount,
                 goalDate = goal.goalDate.toString(),
                 goalStatus = goal.goalStatus.name,
@@ -37,7 +37,7 @@ class GoalRepoImpl(database: Database): GoalRepository {
     override fun editGoal(goal: Goal) {
         goalQueries.transaction {
             goalQueries.update(
-                goalName = goal.goalName,
+                goalName = goal.goalName.trim(),
                 goalAmount = goal.goalAmount,
                 goalStatus = goal.goalStatus.name,
                 goalId = goal.goalId

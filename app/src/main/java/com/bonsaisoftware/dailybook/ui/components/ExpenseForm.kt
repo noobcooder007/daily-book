@@ -71,7 +71,7 @@ fun ExpenseForm(
                 label = { Text("Description") },
                 modifier = Modifier.fillMaxWidth(),
                 value = name,
-                onValueChange = { name = it.trim() },
+                onValueChange = { name = it },
                 placeholder = { Text("Type a description") },
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.Sentences,

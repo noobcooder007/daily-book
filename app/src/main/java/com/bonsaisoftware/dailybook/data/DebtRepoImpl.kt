@@ -25,7 +25,7 @@ class DebtRepoImpl(database: Database) : DebtRepository {
     override fun addDebt(debt: Debt) {
         debtQueries.transaction {
             debtQueries.insert(
-                debt.debtName,
+                debt.debtName.trim(),
                 debt.debtAmount,
                 debt.debtDate.toString(),
                 debt.debtCreditCard.name
@@ -36,7 +36,7 @@ class DebtRepoImpl(database: Database) : DebtRepository {
     override fun editDebt(debt: Debt) {
         debtQueries.transaction {
             debtQueries.update(
-                debt.debtName,
+                debt.debtName.trim(),
                 debt.debtAmount,
                 debt.debtCreditCard.name,
                 debt.debtId

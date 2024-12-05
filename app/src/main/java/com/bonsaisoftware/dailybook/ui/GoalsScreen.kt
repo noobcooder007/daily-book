@@ -1,5 +1,8 @@
 package com.bonsaisoftware.dailybook.ui
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
@@ -10,13 +13,16 @@ import com.bonsaisoftware.dailybook.ui.components.CustomTopBar
 import com.bonsaisoftware.dailybook.ui.components.FAB
 import com.bonsaisoftware.dailybook.ui.components.GoalsList
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun GoalsScreen(
     uiState: GoalsUiState,
     onCanBackClick: Boolean = false,
     onBackClick: () -> Unit = {},
     onFabClick: (goalId: Long) -> Unit = {},
-    onItemClick: (goalId: Long) -> Unit = {}
+    onItemClick: (goalId: Long) -> Unit = {},
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope
 ) {
     Scaffold(
         topBar = {
@@ -35,6 +41,12 @@ fun GoalsScreen(
             }, onClick = { onFabClick(-1L) })
         }
     ) {
-        GoalsList(innerPadding = it, uiState = uiState, onItemClick = onItemClick)
+        GoalsList(
+            innerPadding = it,
+            uiState = uiState,
+            onItemClick = onItemClick,
+            sharedTransitionScope = sharedTransitionScope,
+            animatedVisibilityScope = animatedVisibilityScope
+        )
     }
 }

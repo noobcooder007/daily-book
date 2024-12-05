@@ -26,7 +26,7 @@ class ExpenseRepoImpl(database: Database) :
     override fun addExpense(expense: Expense) {
         expenseQueries.transaction {
             expenseQueries.insert(
-                expenseName = expense.expenseName,
+                expenseName = expense.expenseName.trim(),
                 expenseAmount = expense.expenseAmount,
                 expenseDate = expense.expenseDate.toString(),
                 expenseCategory = expense.expenseCategory.name,
@@ -39,7 +39,7 @@ class ExpenseRepoImpl(database: Database) :
     override fun editExpense(expense: Expense) {
         expenseQueries.transaction {
             expenseQueries.update(
-                expenseName = expense.expenseName,
+                expenseName = expense.expenseName.trim(),
                 expenseAmount = expense.expenseAmount,
                 expenseCategory = expense.expenseCategory.name,
                 expenseIsAnExpense = if (expense.expenseIsAnExpense) 1L else 0L,
