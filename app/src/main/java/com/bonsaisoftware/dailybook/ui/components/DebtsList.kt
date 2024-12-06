@@ -44,7 +44,7 @@ fun DebtsList(
                     animatedVisibilityScope
                 ),
                 total = currencyFormat(uiState.total.toBigDecimal()),
-                label = "Balance total",
+                label = "Deuda total",
                 currency = "MXN",
             )
             Spacer(modifier = Modifier.height(8.dp))

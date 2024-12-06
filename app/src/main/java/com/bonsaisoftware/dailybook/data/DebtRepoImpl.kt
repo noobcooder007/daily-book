@@ -2,13 +2,16 @@ package com.bonsaisoftware.dailybook.data
 
 import com.bonsaisoftware.dailybook.db.Database
 import com.bonsaisoftware.dailybook.db.DebtQueries
+import com.bonsaisoftware.dailybook.db.ExpenseQueries
 import com.bonsaisoftware.dailybook.domain.DebtRepository
 import com.bonsaisoftware.dailybook.model.CreditCard
 import com.bonsaisoftware.dailybook.model.Debt
+import com.bonsaisoftware.dailybook.model.ExpenseCategory
 import java.util.Date
 
 class DebtRepoImpl(database: Database) : DebtRepository {
     private val debtQueries: DebtQueries = database.debtQueries
+    private val expenseQueries: ExpenseQueries = database.expenseQueries
     override fun getDebts(): List<Debt> {
         return debtQueries.selectAll().executeAsList().map {
             Debt(
@@ -17,7 +20,8 @@ class DebtRepoImpl(database: Database) : DebtRepository {
                 debtAmount = it.debtAmount,
                 debtDate = Date(it.debtDate),
                 debtCreditCard = CreditCard.valueOf(it.debtCreditCard),
-                debtIsActive = it.debtIsActive == 1L
+                debtIsActive = it.debtIsActive == 1L,
+                debtIsAPayment = it.debtIsAPayment == 1L
             )
         }
     }
@@ -25,11 +29,22 @@ class DebtRepoImpl(database: Database) : DebtRepository {
     override fun addDebt(debt: Debt) {
         debtQueries.transaction {
             debtQueries.insert(
-                debt.debtName.trim(),
-                debt.debtAmount,
-                debt.debtDate.toString(),
-                debt.debtCreditCard.name
+                debtName = debt.debtName.trim(),
+                debtAmount = debt.debtAmount,
+                debtDate = debt.debtDate.toString(),
+                debtCreditCard = debt.debtCreditCard.name,
+                debtIsAPayment = if (debt.debtIsAPayment) 1L else 0L
             )
+            if (debt.debtIsAPayment) {
+                expenseQueries.insert(
+                    expenseName = "Pago a tarjeta de crédito",
+                    expenseAmount = debt.debtAmount,
+                    expenseDate = debt.debtDate.toString(),
+                    expenseCategory = ExpenseCategory.OTHER.name,
+                    expenseIsAnExpense = 1L,
+                    expenseCanEdit = 0L
+                )
+            }
         }
     }
 
@@ -57,7 +72,8 @@ class DebtRepoImpl(database: Database) : DebtRepository {
                 debtAmount = it.debtAmount,
                 debtDate = Date(it.debtDate),
                 debtIsActive = it.debtIsActive == 1L,
-                debtCreditCard = CreditCard.valueOf(it.debtCreditCard)
+                debtCreditCard = CreditCard.valueOf(it.debtCreditCard),
+                debtIsAPayment = it.debtIsAPayment == 1L
             )
         }
     }

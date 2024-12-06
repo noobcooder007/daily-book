@@ -45,17 +45,17 @@ fun DebtListItem(debt: Debt, onItemClick: (debtId: Long) -> Unit = {}) {
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-fun DebtListItemPreview() {
-    DebtListItem(
-        debt = Debt(
-            debtId = 1,
-            debtName = "Comida",
-            debtAmount = 10000,
-            debtDate = Date(),
-            debtCreditCard = CreditCard.BBVA,
-            debtIsActive = true
-        )
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun DebtListItemPreview() {
+//    DebtListItem(
+//        debt = Debt(
+//            debtId = 1,
+//            debtName = "Comida",
+//            debtAmount = 10000,
+//            debtDate = Date(),
+//            debtCreditCard = CreditCard.BBVA,
+//            debtIsActive = true
+//        )
+//    )
+//}

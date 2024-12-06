@@ -1,8 +1,10 @@
 package com.bonsaisoftware.dailybook.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -13,8 +15,8 @@ import com.bonsaisoftware.dailybook.model.GoalStatus
 import java.util.Date
 
 @Composable
-fun BagListItem(bag: Bag) {
-    ListItem(
+fun BagListItem(bag: Bag, onItemClick: (bagId: Long) -> Unit) {
+    ListItem(modifier = Modifier.clickable { onItemClick(bag.bagId) },
         headlineContent = {
             Text(
                 text = bag.bagName, style = TextStyle(
@@ -53,39 +55,41 @@ fun BagListItem(bag: Bag) {
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-fun BagListItemWithGoalNotAssignedPreview() {
-    BagListItem(
-        bag = Bag(
-            bagId = 1,
-            bagName = "Bag 1",
-            bagAmount = 100,
-            bagDate = Date(),
-            bagIsActive = true,
-            goal = null,
-        )
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun BagListItemWithGoalNotAssignedPreview() {
+//    BagListItem(
+//        bag = Bag(
+//            bagId = 1,
+//            bagName = "Bag 1",
+//            bagAmount = 100,
+//            bagDate = Date(),
+//            bagIsActive = true,
+//            goal = null,
+//        ),
+//        onItemClick = onItemClick
+//    )
+//}
 
-@Preview(showBackground = true)
-@Composable
-fun BagListItemWithGoalAssignedPreview() {
-    BagListItem(
-        bag = Bag(
-            bagId = 1,
-            bagName = "Bag 1",
-            bagAmount = 100,
-            bagDate = Date(),
-            bagIsActive = true,
-            goal = Goal(
-                goalId = 1,
-                goalName = "Goal 1",
-                goalAmount = 100,
-                goalDate = Date(),
-                goalStatus = GoalStatus.PENDING,
-                goalIsActive = true,
-            )
-        )
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun BagListItemWithGoalAssignedPreview() {
+//    BagListItem(
+//        bag = Bag(
+//            bagId = 1,
+//            bagName = "Bag 1",
+//            bagAmount = 100,
+//            bagDate = Date(),
+//            bagIsActive = true,
+//            goal = Goal(
+//                goalId = 1,
+//                goalName = "Goal 1",
+//                goalAmount = 100,
+//                goalDate = Date(),
+//                goalStatus = GoalStatus.PENDING,
+//                goalIsActive = true,
+//            )
+//        ),
+//        onItemClick = onItemClick
+//    )
+//}

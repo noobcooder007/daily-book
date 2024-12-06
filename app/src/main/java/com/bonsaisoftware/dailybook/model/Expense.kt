@@ -10,7 +10,7 @@ data class Expense(
     val expenseCategory: ExpenseCategory,
     val expenseIsActive: Boolean = true,
     val expenseIsAnExpense: Boolean = false,
-    val expenseDebtId: Long? = null
+    val expenseCanEdit: Boolean = true
 )
 
 enum class ExpenseCategory(val categoryName: String) {

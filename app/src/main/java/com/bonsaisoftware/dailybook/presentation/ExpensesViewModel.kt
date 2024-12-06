@@ -44,8 +44,8 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
         updateExpensesList()
     }
 
-    fun addExpense(expense: Expense) {
-        repo.addExpense(expense)
+    fun addExpense(expense: Expense, expenseCanEdit: Boolean) {
+        repo.addExpense(expense, expenseCanEdit)
         updateExpensesList()
     }
 

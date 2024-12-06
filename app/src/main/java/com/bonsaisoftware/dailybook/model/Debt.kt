@@ -8,6 +8,7 @@ data class Debt(
     val debtAmount: Long,
     val debtDate: Date,
     val debtCreditCard: CreditCard,
+    val debtIsAPayment: Boolean = false,
     val debtIsActive: Boolean = true
 )
 

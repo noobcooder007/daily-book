@@ -77,29 +77,37 @@ fun ExpenseForm(
                     capitalization = KeyboardCapitalization.Sentences,
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Next
-                )
+                ),
+                enabled = if (expense?.expenseCanEdit != true) true else false
             )
             NumberFormField(
                 label = "Amount",
                 value = "$amount",
-                onValueChange = { amount = it })
+                onValueChange = { amount = it },
+                enabled = if (expense?.expenseCanEdit != true) true else false
+            )
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Checkbox(checked = isExpense, onCheckedChange = { isExpense = it })
+                Checkbox(
+                    checked = isExpense,
+                    onCheckedChange = { isExpense = it },
+                    enabled = if (expense?.expenseCanEdit != true) true else false
+                )
                 Text("Is a expense")
             }
             CustomDropdown(
                 item = category,
                 items = ExpenseCategory.entries.map { it.name },
-                onItemSelect = { category = it }
+                onItemSelect = { category = it },
+                enabled = if (expense?.expenseCanEdit != true) true else false
             )
             Spacer(
                 modifier = Modifier.weight(1f)
             )
             FilledTonalIconButton(
                 modifier = Modifier.fillMaxWidth(),
-                enabled = name.isNotEmpty(),
+                enabled = if (expense?.expenseCanEdit != true && name.isNotEmpty()) true else false,
                 onClick = {
                     onSaveChanges(
                         Expense(

@@ -20,29 +20,26 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun CustomDropdown(
-    item: String,
-    items: List<String>,
-    onItemSelect: (String) -> Unit
+    item: String, items: List<String>, onItemSelect: (String) -> Unit, enabled: Boolean = true
 ) {
     var expanded by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier.fillMaxWidth()
     ) {
         Row {
-            OutlinedTextField(
+            OutlinedTextField(enabled = enabled,
+                label = { Text("Category") },
                 value = item,
                 onValueChange = { },
                 modifier = Modifier.weight(1f),
                 readOnly = true,
                 trailingIcon = {
-                    IconButton(onClick = { expanded = true }) {
+                    IconButton(onClick = { expanded = true }, enabled = enabled) {
                         Icon(
-                            imageVector = Icons.Default.ArrowDropDown,
-                            contentDescription = null
+                            imageVector = Icons.Default.ArrowDropDown, contentDescription = null
                         )
                     }
-                }
-            )
+                })
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = {
@@ -50,12 +47,10 @@ fun CustomDropdown(
                 },
             ) {
                 items.forEach {
-                    DropdownMenuItem(
-                        text = { Text(it) },
-                        onClick = {
-                            expanded = false
-                            onItemSelect(it)
-                        })
+                    DropdownMenuItem(text = { Text(it) }, onClick = {
+                        expanded = false
+                        onItemSelect(it)
+                    })
                 }
             }
         }

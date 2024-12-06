@@ -44,7 +44,7 @@ fun GoalsList(
                     animatedVisibilityScope
                 ),
                 total = currencyFormat(uiState.total.toBigDecimal()),
-                label = "Balance total",
+                label = "Total de metas",
                 currency = "MXN",
             )
             Spacer(modifier = Modifier.height(8.dp))

@@ -23,7 +23,7 @@ class ExpenseRepoImpl(database: Database) :
         }
     }
 
-    override fun addExpense(expense: Expense) {
+    override fun addExpense(expense: Expense, expenseCanEdit: Boolean) {
         expenseQueries.transaction {
             expenseQueries.insert(
                 expenseName = expense.expenseName.trim(),
@@ -31,7 +31,7 @@ class ExpenseRepoImpl(database: Database) :
                 expenseDate = expense.expenseDate.toString(),
                 expenseCategory = expense.expenseCategory.name,
                 expenseIsAnExpense = if (expense.expenseIsAnExpense) 1L else 0L,
-                expenseDebtId = expense.expenseDebtId
+                expenseCanEdit = if (expenseCanEdit) 1L else 0L
             )
         }
     }

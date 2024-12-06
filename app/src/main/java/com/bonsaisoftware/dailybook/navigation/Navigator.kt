@@ -143,7 +143,7 @@ fun Navigation(
                     }
                 ) { expense ->
                     if (expenseToAddOrEdit == null) {
-                        expensesViewModel.addExpense(expense)
+                        expensesViewModel.addExpense(expense, true)
                     } else {
                         expensesViewModel.editExpense(expense)
                     }
@@ -228,7 +228,7 @@ fun Navigation(
                     navController.popBackStack()
                 }
             }
-            composable(route = "/bags") {
+            composable(route = "/bag") {
                 BagsScreen(
                     uiState = bagsUiState, onCanBackClick = true, onBackClick = {
                         navController.popBackStack()
